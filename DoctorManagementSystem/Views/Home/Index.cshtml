@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["Title"] = "Home - City General Hospital";
+}
+
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm" style="background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('/api/placeholder/1200/400'); background-size: cover;">
+    <div class="container-fluid py-5 text-center">
+        <h1 class="display-4 fw-bold text-primary">Your Health, Our Priority</h1>
+        <p class="col-md-8 fs-4 mx-auto text-dark">
+            Striving to provide the highest quality medical care with compassion and innovation.
+        </p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a href="/Home/BookAppointment" class="btn btn-primary btn-lg px-4 gap-3">Book Appointment</a>
+            <a href="/Home/BookAppointment" class="btn btn-outline-secondary btn-lg px-4">Our Doctors</a>
+            @* <button type="button" class="btn btn-outline-secondary btn-lg px-4">Our Doctors</button> *@
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row text-center mb-5">
+        <div class="col-md-4">
+            <div class="p-3">
+                <i class="bi bi-clock-history fs-1 text-primary"></i>
+                <h3 class="mt-2">24/7 Service</h3>
+                <p class="text-muted">Emergency care available at any time, day or night.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3">
+                <i class="bi bi-person-heart fs-1 text-primary"></i>
+                <h3 class="mt-2">Expert Staff</h3>
+                <p class="text-muted">Over 200+ specialized doctors ready to help you.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3">
+                <i class="bi bi-geo-alt fs-1 text-primary"></i>
+                <h3 class="mt-2">Central Location</h3>
+                <p class="text-muted">Easy to reach in the heart of the city.</p>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Our Medical Specialties</h2>
+        <p class="text-muted">We offer a wide range of departments to cover all healthcare needs.</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm text-center">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">Internal Medicine</h5>
+                    <p class="card-text text-muted">Comprehensive prevention and treatment of adult diseases.</p>
+                    <a href="#" class="btn btn-sm btn-link">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm text-center">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">Pediatrics</h5>
+                    <p class="card-text text-muted">Specialized medical care for infants, children, and adolescents.</p>
+                    <a href="#" class="btn btn-sm btn-link">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm text-center">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">Surgery</h5>
+                    <p class="card-text text-muted">Advanced surgical procedures with minimally invasive techniques.</p>
+                    <a href="#" class="btn btn-sm btn-link">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 p-4 bg-dark text-white rounded text-center">
+        <h3>Need Immediate Assistance?</h3>
+        <p>Call us at: <strong>01069216708</strong> or visit our help desk.</p>
+        @* <button  class="btn btn-outline-light">Contact Us Now</button> *@
+        <a href="https://wa.me/qr/VFOM45ACAB4YL1" class="btn btn-outline-light">Contact Us Now</a>
+    </div>
+</div>

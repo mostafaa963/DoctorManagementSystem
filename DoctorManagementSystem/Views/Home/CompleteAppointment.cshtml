@@ -1,0 +1,131 @@
+﻿@model Doctor
+@{
+    ViewData["Title"] = "Complete Appointment";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            @* --- SUCCESS MESSAGE (From Server) --- *@
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <strong>Success!</strong> @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            @* --- ERROR MESSAGE (From Server) --- *@
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <strong>Failed!</strong> @TempData["ErrorMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h2 class="h5 mb-0">Book Session with Dr. @Model.Name</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form id="appointmentForm" method="post" asp-action="CompleteAppointment">
+                        <input type="hidden" name="DoctorID" value="@Model.Id">
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Patient Name</label>
+                            <input type="text" class="form-control" name="Name" required placeholder="Enter Full Name">
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Date</label>
+                                <input type="date" class="form-control" id="appointmentDate" name="DateBook" required>
+                                <div id="holidayWarning" class="text-danger small d-none mt-1">
+                                    Friday and Saturday are holidays. Please pick another day.
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Available Time</label>
+                                <select class="form-select" id="appointmentTime" name="TimeBook" required>
+                                    <option value="">Select Time...</option>
+                                    @for (int hour = 8; hour <= 16; hour++)
+                                    {
+                                        string h = hour.ToString("00");
+                                        <option value="@h:00">@h:00</option>
+                                        <option value="@h:30">@h:30</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-success w-100 py-2" id="submitBtn">
+                                Confirm Appointment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Processing Modal (Wait 5 seconds) *@
+<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center p-5">
+                <div class="spinner-border text-success mb-3" role="status" style="width: 3rem; height: 3rem;"></div>
+                <h4 class="text-success">Booking in Progress...</h4>
+                <p class="text-muted">Please wait 5 seconds while we confirm your appointment.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('appointmentForm');
+            const dateInput = document.getElementById('appointmentDate');
+            const timeSelect = document.getElementById('appointmentTime');
+            const holidayWarning = document.getElementById('holidayWarning');
+            const submitBtn = document.getElementById('submitBtn');
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+
+            // HOLIDAY CHECK: Block Fri(5) and Sat(6)
+            dateInput.addEventListener('change', function() {
+                const day = new Date(this.value).getUTCDay();
+                if (day === 5 || day === 6) {
+                    holidayWarning.classList.remove('d-none');
+                    timeSelect.disabled = true;
+                    submitBtn.disabled = true;
+                    this.classList.add('is-invalid');
+                } else {
+                    holidayWarning.classList.add('d-none');
+                    timeSelect.disabled = false;
+                    submitBtn.disabled = false;
+                    this.classList.remove('is-invalid');
+                }
+            });
+
+            // SUBMIT LOGIC: Wait 5 seconds then submit
+            form.addEventListener('submit', function (e) {
+                e.preventDefault(); // Stop instant submit
+                
+                submitBtn.disabled = true;
+                successModal.show();
+
+                // Wait for 5 seconds
+                setTimeout(function () {
+                    form.submit(); // Finally send to Controller
+                }, 5000);
+            });
+        });
+    </script>
+}

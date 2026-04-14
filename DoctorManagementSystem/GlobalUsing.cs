@@ -1,0 +1,2 @@
+﻿global using DoctorManagementSystem.Models;
+global using DoctorManagementSystem.DataAccess;

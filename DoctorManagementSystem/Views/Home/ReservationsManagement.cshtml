@@ -1,0 +1,104 @@
+﻿@model IEnumerable<BookAppointment>
+@{
+    ViewData["Title"] = "Reservations Management";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="display-6 fw-bold text-primary">Reservations Management</h1>
+            <p class="text-muted">Overview of all scheduled doctor appointments.</p>
+        </div>
+        @* Optional: Action button to go back to doctors list *@
+        <a href="/" class="btn btn-outline-secondary shadow-sm">
+            <i class="bi bi-arrow-left"></i> Back to Booking
+        </a>
+    </div>
+
+    @* Server Side Success Message *@
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm border-0 mb-4" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card shadow border-0 overflow-hidden">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 fw-bold"><i class="bi bi-calendar-event me-2 text-primary"></i>Appointment List</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Doctor ID</th>
+                        <th>Patient Name</th>
+                        <th>Appointment Date</th>
+                        <th>Appointment Time</th>
+                        <th class="text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">
+                                <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                                No reservations found.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <span class="badge bg-light text-dark border">#@item.DoctorID</span>
+                                </td>
+                                <td class="fw-bold text-dark">@item.Name</td>
+                                <td>
+                                    <i class="bi bi-calendar3 me-1 text-muted"></i>
+                                    @item.DateBook.ToShortDateString()
+                                </td>
+                                <td>
+                                    <i class="bi bi-clock me-1 text-muted"></i>
+                                    <span class="text-primary fw-semibold">@item.TimeBook</span>
+                                </td>
+                                @if (item.TimeBook.Hour > 12)
+                                {
+                                    item.TimeBook.AddHours(12);
+                                }
+                                @if (item.TimeBook.Hour < 13)
+                                {
+                                    <td class="text-center">
+                                        <span class="badge rounded-pill bg-success-subtle text-success border border-success">
+                                            Confirmed
+                                        </span>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="text-center">
+                                        <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger">
+                                            Not Confirmed
+                                        </span>
+                                    </td>
+                                    
+                                }
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer bg-white text-end py-3">
+            <small class="text-muted">Showing @Model.Count() Total Appointments</small>
+        </div>
+    </div>
+</div>
+
+@* Include Bootstrap Icons in your Layout or here *@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
